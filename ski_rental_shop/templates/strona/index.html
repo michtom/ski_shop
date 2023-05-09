@@ -1,0 +1,43 @@
+{% extends "strona/base.html" %}
+{% block style %}
+    img{
+    border: 4px solid #ddd;
+    border-radius: 8px;
+    min-height: 30%;
+    min-width: 30%;
+    max-width: 50%;
+    max-height: 50%;
+    float: top;
+}
+{% endblock %}
+{% block title %}Ski shop - buy Your gear now!{% endblock %}
+
+{% block content %}
+<div class = 'introduction'>Welcome in ski shop! You can find here several articles to rent. We offer exceptional service and best prices!
+    Visit the <a href="{% url 'about' %}">About</a> page to learn more about this site. </div>
+    <fieldset>
+<form method="get">
+<label for="brand_choose">Select a brand:</label>
+<select name="brand_choose" id="brand_choose">
+    <option value="All" selected>All</option>
+    {% for brand in all_brands %}
+        <option value="{{ brand.brand_name }}">{{ brand.brand_name }}</option>
+    {% endfor %}
+</select>
+<input type="submit" value="Select">
+</form>
+    </fieldset>
+    {% if articles_sort_alphabetical %}
+        <div class="grid-container">
+        {% for q in articles_sort_alphabetical %}
+            <figure class="ski_article">
+                <p><img src="{{ q.image.url }}" alt="{{ q.name }}">
+                <figcaption class = "caption"><a href="{% url 'detail' q.id%}">{{ q.name }}</a></figcaption>
+                <p>{{ q.price }}.00 PLN</p>
+            </figure>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>Sorry, no articles found!</p>
+    {% endif %}
+{% endblock %}

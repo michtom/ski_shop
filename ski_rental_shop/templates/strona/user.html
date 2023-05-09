@@ -1,0 +1,36 @@
+{% extends "strona/base.html" %}
+
+{% block title %}About the user {{ profile.user.username }}{% endblock %}
+
+{% block content %}
+    <div class="introduction">{{ profile.user.username }}</div>
+
+    <p>{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+
+    <div class="buy_button"><a href="{% url 'logout' %}" style="color: white; text-align: center">Log out</a></div>
+
+    {% if user_orders %}
+        {% if profile.number_of_orders == 1 %}
+            <p>You have 1 order. You can see it here: </p>
+        {% else %}
+            <p>You have {{ profile.number_of_orders }} orders. You can see them here: </p>
+        {% endif %}
+        <table>
+        <th>Order Date</th>
+        <th>Article</th>
+        <th>Number of articles</th>
+        <th>Total paid</th>
+        <th>Delivery address</th>
+            {% for u in user_orders %}
+                <tr>
+                    <td>{{ u.order_date }}</td>
+                    <td>{{ u.article }}</td>
+                    <td>{{ u.number_of_articles }}</td>
+                    <td>{{ u.amount_paid }}</td>
+                    <td>{{ u.order_address }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}<h1>No orders yet!</h1>
+    {% endif %}
+{% endblock %}

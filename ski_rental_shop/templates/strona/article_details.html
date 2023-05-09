@@ -1,0 +1,54 @@
+{% extends "strona/base.html" %}
+
+{% block style %}
+    img{
+        min-width: 60%;
+        min-height: 60%;
+        max-height: 80%;
+        max-width: 80%;
+        border-radius: 20px;
+        border: 4px solid #ddd;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+    }
+{% endblock %}
+
+{% block title %}{{ article.name }}{% endblock %}
+
+{% block content %}
+<div class="introduction" onload="check_if_able_to_buy()">{{ article.name }}</div>
+<figure style="text-align: center">
+    <img src="{{ article.image.url }}" alt="{{ article.name }}">
+</figure>
+<table>
+    <tr>
+        <th>Type of snow-gear</th>
+        <th>Article name</th>
+        <th>Price</th>
+        <th>Number of available articles</th>
+        <th>Producer brand</th>
+    </tr>
+    <tr>
+        <td>{{ article.type }}</td>
+        <td>{{ article.name }}</td>
+        <td>{{ article.price }}</td>
+        <td id="num_available">{{ article.number_available }}</td>
+        <td>{{ article.brand }}</td>
+    </tr>
+</table>
+
+<div class="buy_button"><a href="{% url 'buy_page' article.id%}" style="color: white;
+ text-align: center" id="buy_link">Buy article</a> </div>
+        <script type="text/javascript">
+const number = document.getElementById("num_available").textContent;
+    console.log(number);
+    if(number == 0){
+        document.getElementById("num_available").style.color = "red";
+        let link = document.getElementById("buy_link");
+        link.style.pointerEvents="none";
+        link.style.cursor="default";
+        window.alert("Sorry, no articles left. You have to buy something else!");
+    }
+    </script>
+{% endblock %}

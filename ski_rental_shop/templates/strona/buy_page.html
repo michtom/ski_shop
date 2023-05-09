@@ -1,0 +1,36 @@
+{% extends "strona/base.html" %}
+
+{% block title %}Buy {{ article.name }}{% endblock %}
+
+{% block content %}
+<div class="introduction">Buy an article: {{ article.name }}</div>
+<form method="post" onsubmit="return validate_address()">
+    {% csrf_token %}
+    <fieldset>
+    <label for="article_name">Article name</label>
+    <input type="text" name="article_name" id="article_name" value="{{ article.name }}" readonly>
+    <label for="price">Price of a single article:</label>
+    <input type="number" name="price" id="price" value="{{ article.price }}" readonly>
+    <label for="items_number">Number of items:</label> <br>
+    <select name="items_number" id="items_number" onclick="calculate_price()">
+        {% for i in range_number %}
+            {% if i == 1 %}
+                <option value={{ i }} selected>{{ i }}</option>
+            {% else %}
+                <option value={{ i }}>{{ i }}</option>
+            {% endif %}
+        {% endfor %}
+    </select> <br>
+    <label for="delivery">Deliver an article to Your House</label>
+    <input type="checkbox" id="delivery" name="delivery" onclick="hide_question()">
+    <div id="address" style="display: none">
+        <label for="address_value">Provide Your address:</label>
+        <input type="text" id="address_value" name="address_value" value="Company Address, 11-111 Example City">
+    </div>
+    <label for="money_amount">Amount to be paid:</label>
+    <input type="number" name="money_amount" id="money_amount" value="{{ article.price }}" readonly>
+    <input type="submit" value="Confirm purchase" onclick="validate()">
+</fieldset>
+</form>
+
+{% endblock %}
